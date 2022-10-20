@@ -4,30 +4,50 @@ let userDB = require("../userDatabase.js");
 
 const bcrypt = require('bcrypt')
 
-const users = []
-
-const user2 = {};
-
 router.get('/user', (req, res) => {
-    res.json(users)
+    let select = "SELECT * FROM users";
+
+    rowData = [];
+
+    userDB.all(select, (error, rows) =>{
+
+        if(error){
+            console.log(error)
+            res.status(500).send();
+        } else{
+    
+     rows.forEach((row) => {
+        rowData.push(row);
+        })
+        console.log(rowData);
+    }
+})
+
+    console.log(rowData);
+
+    res.status(201).send();
   });
 
 router.post('/user/create', async (req, res) => {
 
     try {
+
+        //sätt ifsats för att kolla om användare finns
       const hashedPassword = await bcrypt.hash(req.body.password, 10)
-      const user = { name: req.body.name, password: hashedPassword }
-      user2 = user;
-      users.push(user)
+      const user = { username: req.body.name, password: hashedPassword }
+     
+      //try catch block runt db-calls
+      let insert = "INSERT INTO users (username, password) VALUES (?,?)";
+      userDB.run(insert,[user.username, user.password]);
+
       res.status(201).send()
     } catch {
       res.status(500).send()
     }
-    console.log(user2);
 })
   
 router.post('/user/login', async (req, res) => {
-    const user = users.find(user => user.name === req.body.name)
+    const user = users.find(user => user.username === req.body.name)
     if (user == null) {
       return res.status(400).send('Cannot find user')
     }
@@ -43,3 +63,4 @@ router.post('/user/login', async (req, res) => {
 });
   
 module.exports = router;
+

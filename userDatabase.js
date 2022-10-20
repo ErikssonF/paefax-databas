@@ -1,13 +1,6 @@
 let sqlite3 = require("sqlite3").verbose();
-import { user } from "./routes/user";
-
 
 const DBSOURCE = "users.db";
-
-const fillDatabase = (db) => {
-  let insert = "INSERT INTO users (username, password) VALUES (?,?)";
-  db.run(insert, ["Frege", "password"]);
-};
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
   if (err) {
@@ -24,8 +17,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       (err) => {
         if (err) {
           console.error("User table already created");
-        } else {
-          fillDatabase(db);
         }
       }
     );

@@ -7,7 +7,7 @@ POST http://localhost:3000/user/create
 Content-Type: application/json
 
 {
-    "name": "Frege", "password": "password"
+    "name": "Frege3", "password": "password"
 
 }
 
@@ -17,6 +17,6 @@ POST http://localhost:3000/user/login
 Content-Type: application/json
 
 {
-    "name": "Frege", "password": "password"
+    "name": "Frege2", "password": "password"
 
 }
