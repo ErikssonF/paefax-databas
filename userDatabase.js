@@ -1,4 +1,6 @@
 let sqlite3 = require("sqlite3").verbose();
+import { user } from "./routes/user";
+
 
 const DBSOURCE = "users.db";
 
